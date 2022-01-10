@@ -1,14 +1,4 @@
-from datetime import time
-import requests, re
-from bs4 import BeautifulSoup
-
-from station import Station
-from transport import Transport
 from route import RouteSearch, Route
-
-# for data type annotation
-import bs4
-from typing import List
 
 
 if __name__ == '__main__':
