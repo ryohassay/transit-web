@@ -1,0 +1,131 @@
+html{
+    height: 100%;
+}
+
+body {
+    min-height: 100%;
+    position: relative;
+}
+
+
+/* =========== Header =========== */
+header {
+    width: 100%;
+    background-color: #26d0c9;
+    color:white;
+}
+
+#title {
+    font-size: x-large;
+    padding: 15px 30px 15px 30px;
+    text-decoration: none;
+}
+
+/* ============= Main ============= */
+main {
+    padding: 20px 35px 80px 35px;
+}
+
+/* ========== Search page ========== */
+#input-form {
+    line-height: 150%;
+}
+
+.button {
+    float: right;
+    padding: 20px;
+}
+
+/* ========== Results page ========== */
+.subtitle {
+    font-size: larger;
+    padding: 1em 0em 1em 0em;
+}
+
+.result-box {
+    width: 90%;
+    padding: 10px 10px 10px 10px;
+    border: solid thin;
+    border-color: gray;
+}
+.route-tb {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.sta-row {
+    height: 3em;
+    vertical-align: middle;
+    background-color: #f0f0f0;
+}
+
+.time {
+    width: 10%;
+    text-align: center;
+}
+
+.time > ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.symbol {
+    width: 5%;
+    text-align: center;
+}
+
+.name {
+    width: 85%;
+}
+
+.circle {
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    background-color: gray;
+    border-color: black;
+    border-width: 2px;
+    border-radius: 50%;
+}
+
+.trpt-row {
+    height: 3em;
+    vertical-align: middle;
+    background-color: white;
+}
+
+.line {
+    text-align: center;
+}
+
+.line-color {
+    display: inline-block;
+    width: 0.7em;
+    height: 3em;
+}
+.total-fare {
+    font-size: large;
+    padding: 1em 0em 1em 0em;
+}
+
+/* ============= Footer ============= */
+footer {
+    width: 100%;
+    background-color: #3D4040;
+    color: white;
+    min-height: 60px;
+    position: absolute;
+    bottom: 0;
+}
+
+#footer-title {
+    font-size: medium;
+    float: left;
+    padding: 15px 30px 15px 30px;
+}
+
+#copy-right {
+    font-size: small;
+    float: right;
+    padding: 15px 30px 15px 30px;
+}

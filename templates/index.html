@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <title>一括乗り換え検索</title>
+        <link rel="stylesheet" href="../static/style.css">
+        <script src="../static/script.js"></script>
+    </head>
+
+    <body onload="showInputForm();">
+        <header>
+            <div id="title">一括乗り換え検索</div>
+        </header>
+
+        <main>
+            <div class="input">
+                <form method="POST" action="/">
+                    <div id="input-form"></div>
+                    <div class='button'>
+                        <button type="submit" onclick="showResult()">検索</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+
+        <footer>
+            <div id="footer-title">一括乗り換え検索</div>
+            <div id="copy-right">&copy; 2022 ryohassay</div>
+        </footer>
+    </body>
+</html>
