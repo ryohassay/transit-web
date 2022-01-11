@@ -8,7 +8,7 @@
         <script src="../static/script.js"></script>
     </head>
 
-    <body onload="showInputForm();">
+    <body onload="showInputForm(); showCandidates();">
         <header>
             <div id="title">一括乗り換え検索</div>
         </header>
@@ -18,7 +18,7 @@
                 <form method="POST" action="/">
                     <div id="input-form"></div>
                     <div class='button'>
-                        <button type="submit" onclick="showResult()">検索</button>
+                        <button type="submit" onclick="showResult();">検索</button>
                     </div>
                 </form>
             </div>
