@@ -4,6 +4,7 @@ from datetime import datetime as dt
 from datetime import time as tm
 
 from route import RouteSearch, Route
+from parser import Parser
 
 app = Flask(__name__)
 
@@ -102,4 +103,6 @@ def result():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    purser = Parser()
+    args = purser.get_args()
+    app.run(debug=args.debug, host=args.host)
