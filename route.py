@@ -44,8 +44,9 @@ class RouteSearch:
     def search(self):
         url = URL_BASE.format(start=self.start, dest=self.dest)
         if self.tm is not None:
+            dd = '{:02}'.format(self.tm.day)
             m1, m2 = int(self.tm.minute / 10), int(self.tm.minute % 10)
-            url += DATETIME.format(yyyy=self.tm.year, mm=self.tm.month, dd=self.tm.day, hh=self.tm.hour, m1=m1, m2=m2, tm_type=self.tm_type)
+            url += DATETIME.format(yyyy=self.tm.year, mm=self.tm.month, dd=dd, hh=self.tm.hour, m1=m1, m2=m2, tm_type=self.tm_type)
         if self.options is not None:
             url += OPTIONS.format(*self.options)
         url += PAGE.format(page=self.page)
