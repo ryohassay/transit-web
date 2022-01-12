@@ -1,3 +1,4 @@
+// ============================== Top page ==============================
 function showInputForm(){
     for(let i = 0; i < 5; i++){
         let required = ['required ', '', '', '', '']
@@ -20,6 +21,61 @@ function showInputForm(){
 }
 
 
+function convertCSVtoArray(str){
+    let array = []
+    let rows = str.split("\n");
+
+    let size = rows.length;
+    for(let i = 0; i < size - 1; i++){
+        array[i] = rows[i + 1].split(',');  // Omits the first row
+    }
+    return array
+}
+
+
+function createOptionHTML(sta_info){
+    let stations = sta_info.map(item => item[2]);
+
+    var datalist = document.createElement('datalist');
+    datalist.id = 'stations';
+
+    stations.forEach(name => {
+        var option = document.createElement('option');
+        option.value = name;
+        datalist.appendChild(option);
+    });
+    document.body.appendChild(datalist);
+}
+
+
+function getCSV(csv_file){
+    fetch(csv_file, {
+        method: 'GET'
+    }).then(res => res.text())
+    .then((res_text) => {
+        let array = convertCSVtoArray(res_text)
+        createOptionHTML(array)
+    }).catch((err) => {
+        console.error(err);
+    });
+}
+
+
+function showCandidates(){
+    // Downloaded from https://ekidata.jp/
+    const file_name = "../static/stations.csv";  // Directory seen from `index.html`
+    getCSV(file_name);
+}
+
+
+function showError(error){
+    if(error != null){
+        alert(error)
+    }
+}
+
+
+// ============================== Result page ==============================
 function showResults(routes){
     console.log(routes)
 
@@ -106,51 +162,4 @@ function showResults(routes){
     fare_html = '<div class="total-fare"> 合計運賃：' + total_fare + '円</div>'
     document.getElementById("results").insertAdjacentHTML('beforeend', html);
     document.getElementById("results").insertAdjacentHTML('beforeend', fare_html);
-}
-
-
-function convertCSVtoArray(str){
-    let array = []
-    let rows = str.split("\n");
-
-    let size = rows.length;
-    for(let i = 0; i < size - 1; i++){
-        array[i] = rows[i + 1].split(',');  // Omits the first row
-    }
-    return array
-}
-
-
-function createOptionHTML(sta_info){
-    let stations = sta_info.map(item => item[2]);
-
-    var datalist = document.createElement('datalist');
-    datalist.id = 'stations';
-
-    stations.forEach(name => {
-        var option = document.createElement('option');
-        option.value = name;
-        datalist.appendChild(option);
-    });
-    document.body.appendChild(datalist);
-}
-
-
-function getCSV(csv_file){
-    fetch(csv_file, {
-        method: 'GET'
-    }).then(res => res.text())
-    .then((res_text) => {
-        let array = convertCSVtoArray(res_text)
-        createOptionHTML(array)
-    }).catch((err) => {
-        console.error(err);
-    });
-}
-
-
-function showCandidates(){
-    // Downloaded from https://ekidata.jp/
-    const file_name = "../static/stations.csv";  // Directory seen from `index.html`
-    getCSV(file_name);
 }

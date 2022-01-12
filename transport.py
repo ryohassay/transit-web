@@ -12,7 +12,8 @@ class Transport:
         `trpt_html`: `<li class="transport"> </li>`
         """
         self.name = trpt_html.get_text().replace('[line]', '')
-        if trpt_html.get_text() == '[lineWalk]':
+        if '[lineWalk]' in trpt_html.get_text():
             self.color = trpt_html.find('span', class_='lineWalk')['style'].replace('border-left-color:', '')
+            self.name = trpt_html.get_text().replace('[lineWalk]', '')
         else:
             self.color = trpt_html.find('span', class_='line')['style'].replace('border-left-color:', '')
