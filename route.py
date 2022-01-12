@@ -10,7 +10,7 @@ import bs4
 
 # ========================= Constants =========================
 URL_BASE = 'https://transit.yahoo.co.jp/search/print?from={start}&to={dest}'
-DATETIME = '&y={yyyy}&m={mm}&d={dd:02}&hh={hh:02}&m1={m1}&m2={m2}&type={tm_type}'
+DATETIME = '&y={yyyy}&m={mm:02}&d={dd:02}&hh={hh:02}&m1={m1}&m2={m2}&type={tm_type}'
 # 出発：1, 到着：4,　始発：3, 終電：2, 指定なし：5
 OPTIONS = '&ticket={tk}&expkind={expkind}&userpass={userpass}&ws={walk_sp}&s={disp_ord}&al={airplane}&shin={shinkansen}&ex={express}&hb={exp_bus}&lb={bus}&sr={ferry}'
 # ticket: ic or normal
@@ -44,9 +44,8 @@ class RouteSearch:
     def search(self):
         url = URL_BASE.format(start=self.start, dest=self.dest)
         if self.tm is not None:
-            dd = '{:02}'.format(self.tm.day)
             m1, m2 = int(self.tm.minute / 10), int(self.tm.minute % 10)
-            url += DATETIME.format(yyyy=self.tm.year, mm=self.tm.month, dd=dd, hh=self.tm.hour, m1=m1, m2=m2, tm_type=self.tm_type)
+            url += DATETIME.format(yyyy=self.tm.year, mm=self.tm.month, dd=self.tm.day, hh=self.tm.hour, m1=m1, m2=m2, tm_type=self.tm_type)
         if self.options is not None:
             url += OPTIONS.format(*self.options)
         url += PAGE.format(page=self.page)
