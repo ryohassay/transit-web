@@ -109,6 +109,11 @@ def result():
     # return render_template("index.html")
 
 
+# @app.route("/favicon.ico")
+# def favicon():
+#     return app.send_static_file("static/favicon.ico")
+
+
 if __name__ == '__main__':
     purser = Parser()
     args = purser.get_args()
