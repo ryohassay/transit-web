@@ -127,7 +127,7 @@ function createOptionHTML(sta_info){
     var datalist = document.createElement('datalist');
     datalist.id = 'stations';
 
-    stations.forEach(function(name){
+    stations.forEach(name => {
         var option = document.createElement('option');
         option.value = name;
         datalist.appendChild(option);
