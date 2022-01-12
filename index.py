@@ -29,9 +29,12 @@ def _convert_tm_type(tm_type_str):
 def _search_transit(start: str, dest: str, tm: dt, tm_type: int):
     route = Route(RouteSearch(start, dest, tm, tm_type))
     route.search.search()
-    route.get_summary()
+    result = route.get_summary()
     route.get_detail()
-    return route
+    if result:
+        return route
+    else:  # if the search result is an error
+        return None
 
 
 def _convert_route_for_js(route: Route) -> List[Dict]:
@@ -68,7 +71,7 @@ def _convert_route_for_js(route: Route) -> List[Dict]:
 
 @app.route('/')
 def index():
-    return render_template("index.html")
+    return render_template("index.html", error_msg=None)
 
 
 @app.route("/", methods=['post'])
@@ -93,6 +96,10 @@ def result():
 
             ip_tm_type_int = _convert_tm_type(ip_tm_type)
             route = _search_transit(ip_start, ip_dest, ip_dt, ip_tm_type_int)
+
+            if route is None:
+                error_msg = '出発地または到着地が正しくありません。'
+                return render_template("index.html", error_msg=error_msg)
 
             # Rearrange the object to list of dictionaries
             route_js = _convert_route_for_js(route)

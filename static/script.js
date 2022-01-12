@@ -1,11 +1,12 @@
+// ============================== Top page ==============================
 function showInputForm(){
     for(let i = 0; i < 5; i++){
         let required = ['required ', '', '', '', '']
         let input_form =
             '<p>' +
-            '    <input type="text" name="ip[' + i + '][\'start\']" placeholder="出発地" ' + required[i] + 'autofocus>' +
+            '    <input type="text" name="ip[' + i + '][\'start\']" placeholder="出発地" ' + required[i] + ' autocomplete="on" list="stations" autofocus>' +
             '    &ensp;→&ensp;' +
-            '    <input type="text" name="ip[' + i + '][\'dest\']" placeholder="到着地" ' + required[i] + '>' +
+            '    <input type="text" name="ip[' + i + '][\'dest\']" placeholder="到着地" ' + required[i] + ' autocomplete="on" list="stations">' +
             '    &emsp;' +
             '    <input type="date" name="ip[' + i + '][\'date\']">' +
             '    <input type="time" name="ip[' + i + '][\'time\']">' +
@@ -20,6 +21,61 @@ function showInputForm(){
 }
 
 
+function convertCSVtoArray(str){
+    let array = []
+    let rows = str.split("\n");
+
+    let size = rows.length;
+    for(let i = 0; i < size - 1; i++){
+        array[i] = rows[i + 1].split(',');  // Omits the first row
+    }
+    return array
+}
+
+
+function createOptionHTML(sta_info){
+    let stations = sta_info.map(item => item[2]);
+
+    var datalist = document.createElement('datalist');
+    datalist.id = 'stations';
+
+    stations.forEach(name => {
+        var option = document.createElement('option');
+        option.value = name;
+        datalist.appendChild(option);
+    });
+    document.body.appendChild(datalist);
+}
+
+
+function getCSV(csv_file){
+    fetch(csv_file, {
+        method: 'GET'
+    }).then(res => res.text())
+    .then((res_text) => {
+        let array = convertCSVtoArray(res_text)
+        createOptionHTML(array)
+    }).catch((err) => {
+        console.error(err);
+    });
+}
+
+
+function showCandidates(){
+    // Downloaded from https://ekidata.jp/
+    const file_name = "../static/stations.csv";  // Directory seen from `index.html`
+    getCSV(file_name);
+}
+
+
+function showError(error){
+    if(error != null){
+        alert(error)
+    }
+}
+
+
+// ============================== Result page ==============================
 function showResults(routes){
     console.log(routes)
 

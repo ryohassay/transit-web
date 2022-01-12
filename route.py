@@ -32,6 +32,7 @@ class RouteSearch:
         self.page = init_page
         self.url = None
         self.soup = None
+        self.error = False
 
 
     def _get_html(self, url: str) -> BeautifulSoup:
@@ -51,6 +52,12 @@ class RouteSearch:
         self.url = url
         self.soup = self._get_html(url)
 
+        # Find error from the HTML code
+        meta_title = self.soup.head.find('title').get_text()
+        print(meta_title)
+        if meta_title == '乗換案内、時刻表、運行情報 - Yahoo!路線情報':
+            self.error = True
+
 
 class Route:
     def __init__(self, search: RouteSearch) -> None:
@@ -67,12 +74,16 @@ class Route:
 
 
     def get_summary(self):
-        route_summary = self.search.soup.find('div', class_='routeSummary')
-        fare_str = route_summary.find('li', class_='fare').get_text().replace(',', '')  # 数字中のコンマ削除
-        self.fare = int(re.search(r'\d+', fare_str).group())
-        if self.search.tm_type != 5:
-            time_str = route_summary.find('li', class_='time').get_text()
-            self.dep_tm, self.arr_tm = re.findall(r'((?:[01][0-9]|2[0-3]):[0-5][0-9])', time_str)
+        if self.search.error:
+            return False
+        else:
+            route_summary = self.search.soup.find('div', class_='routeSummary')
+            fare_str = route_summary.find('li', class_='fare').get_text().replace(',', '')  # 数字中のコンマ削除
+            self.fare = int(re.search(r'\d+', fare_str).group())
+            if self.search.tm_type != 5:
+                time_str = route_summary.find('li', class_='time').get_text()
+                self.dep_tm, self.arr_tm = re.findall(r'((?:[01][0-9]|2[0-3]):[0-5][0-9])', time_str)
+            return True
 
 
     def _get_sta_htmls(self) -> List[bs4.element.Tag]:
@@ -88,19 +99,24 @@ class Route:
 
 
     def get_detail(self):
-        has_time = False if self.search.tm_type == 5 else True
+        if self.search.error:
+            return False
+        else:
+            has_time = False if self.search.tm_type == 5 else True
 
-        sta_htmls = self._get_sta_htmls()
-        for sta_html in sta_htmls:
-            station = Station()
-            station.set_info(sta_html, has_time)
-            self.stations.append(station)
+            sta_htmls = self._get_sta_htmls()
+            for sta_html in sta_htmls:
+                station = Station()
+                station.set_info(sta_html, has_time)
+                self.stations.append(station)
 
-        trpt_htmls = self._get_trpt_htmls()
-        for trpt_html in trpt_htmls:
-            transport = Transport()
-            transport.set_info(trpt_html)
-            self.transports.append(transport)
+            trpt_htmls = self._get_trpt_htmls()
+            for trpt_html in trpt_htmls:
+                transport = Transport()
+                transport.set_info(trpt_html)
+                self.transports.append(transport)
+
+            return True
 
 
     def show_detail(self):
