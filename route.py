@@ -49,13 +49,16 @@ class RouteSearch:
         if self.options is not None:
             url += OPTIONS.format(*self.options)
         url += PAGE.format(page=self.page)
+
+        print(url)
+
         self.url = url
         self.soup = self._get_html(url)
 
         # Find error from the HTML code
-        meta_title = self.soup.head.find('title').get_text()
-        print(meta_title)
-        if meta_title == '乗換案内、時刻表、運行情報 - Yahoo!路線情報':
+        title = self.soup.head.find('title').get_text()
+        print(title)
+        if title == '乗換案内、時刻表、運行情報 - Yahoo!路線情報':
             self.error = True
 
 

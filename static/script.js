@@ -155,7 +155,7 @@ function showResults(routes){
             '</tr>'
         html += sta_row_last
 
-        let bottom_html = '</table><div><a href="' + routes[i]["url"] + '">Yahoo!乗り換えリンク</a></div></div></div>'
+        let bottom_html = '</table><div><a href="' + routes[i]["url"] + '">Yahoo!乗換案内リンク</a></div></div></div>'
         html += bottom_html
     }
 
